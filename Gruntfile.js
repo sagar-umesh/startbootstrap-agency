@@ -21,7 +21,7 @@ module.exports = function(grunt) {
         },
         copy: {
             main: {
-                src: ['*.html', 'mail/**', 'img/**', 'less/**'],
+                src: ['*.html', 'github/**', 'linkedin/**', 'facebook/**', 'twitter/**', 'gplus/**', 'flickr/**', 'img/**', 'less/**'],
                 dest: 'dist/',
             },
             jquery: {
@@ -30,7 +30,8 @@ module.exports = function(grunt) {
                     cwd: 'bower_components/jquery/dist/',
                     src: [
                         'jquery.js',
-                        'jquery.min.js'
+                        'jquery.min.js',
+                        'jquery.min.map'
                     ],
                     dest: 'dist/js/'
                 }, ]
@@ -61,6 +62,19 @@ module.exports = function(grunt) {
                     dest: 'dist/'
                 }, ]
             },
+            bootstrapImageGallery: {
+                files : [{
+                    expand: true,
+                    src: ['css/bootstrap-image-gallery/*'], 
+                    dest: 'dist/css',
+                    flatten: true
+                }, {
+                    expand: true,
+                    src: ['js/jquery.blueimp-gallery.min.js'],
+                    dest: 'dist/js',
+                    flatten: true
+                }]
+            }
         },
         less: {
             expanded: {
@@ -106,7 +120,7 @@ module.exports = function(grunt) {
                 },
             },
             copy: {
-                files: ['*.html', 'mail/**', 'img/**', 'less/**'],
+                files: ['*.html', 'github/**', 'linkedin/**', 'facebook/**', 'twitter/**', 'gplus/**', 'flickr/**', 'img/**', 'less/**'],
                 tasks: ['copy'],
                 options: {
                     spawn: false,
@@ -118,8 +132,21 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false,
                 }
-            },
-        }
+            }
+        },
+        image_resize: {
+            resize : {
+                options: {
+                    width: 200,
+                    height: 200,
+                    overwrite: true,
+                    crop: true,
+                    gravity: 'center'
+                },
+                src: 'img/photography/*.jpg',
+                dest: 'dist/img/photography/thumbs/'
+            }
+        },
     });
 
     // Load the plugins.
@@ -129,8 +156,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-image-resize');
 
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'less', 'usebanner']);
-
+    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'less', 'usebanner', 'image_resize']);
 };

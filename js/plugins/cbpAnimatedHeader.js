@@ -11,9 +11,16 @@
 var cbpAnimatedHeader = (function() {
 
 	var docElem = document.documentElement,
-		header = document.querySelector( '.navbar-default' ),
+		navbar = document.querySelector( '.navbar-default' ),
 		didScroll = false,
-		changeHeaderOn = 300;
+
+		// fraction of the width occupied by the header. Have a buffer of 2%. This value will be overriden based on the height of the header, if it exists.
+		documentHeightPercent = 0.1; // 
+
+	var header = document.querySelector("header");
+	if( header !== null) {
+		documentHeightPercent = (document.querySelector("header").offsetHeight / docElem.offsetHeight) - 0.02;
+	}
 
 	function init() {
 		window.addEventListener( 'scroll', function( event ) {
@@ -26,11 +33,14 @@ var cbpAnimatedHeader = (function() {
 
 	function scrollPage() {
 		var sy = scrollY();
-		if ( sy >= changeHeaderOn ) {
-			classie.add( header, 'navbar-shrink' );
+		var percentCovered = sy / docElem.offsetHeight;
+		navbar.style.backgroundColor = "rgba(0, 0, 0, " + percentCovered / documentHeightPercent + ")";
+
+		if ( percentCovered >= documentHeightPercent ) {
+			classie.add(navbar, 'navbar-shrink');
 		}
 		else {
-			classie.remove( header, 'navbar-shrink' );
+			classie.remove(navbar, 'navbar-shrink');
 		}
 		didScroll = false;
 	}
