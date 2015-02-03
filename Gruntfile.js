@@ -74,6 +74,12 @@ module.exports = function(grunt) {
                     dest: 'dist/js',
                     flatten: true
                 }]
+            },
+            jekyllBlog: {
+                cwd : 'blog/_site/',
+                src : '**/*', 
+                dest: 'dist/blog',
+                expand : true
             }
         },
         less: {
@@ -147,6 +153,11 @@ module.exports = function(grunt) {
                 dest: 'dist/img/photography/thumbs/'
             }
         },
+        shell : {
+            jekyllBuild : {
+                command : 'jekyll build --source blog/ --destination blog/_site'
+            }
+        }
     });
 
     // Load the plugins.
@@ -157,7 +168,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-image-resize');
+    grunt.loadNpmTasks('grunt-shell');
 
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify', 'copy', 'less', 'usebanner', 'image_resize']);
+    grunt.registerTask('default', ['concat', 'uglify', 'less', 'usebanner', 'image_resize', 'shell', 'copy']);
 };
