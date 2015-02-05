@@ -49,6 +49,16 @@ module.exports = function(grunt) {
                     dest: 'dist/'
                 }, ]
             },
+            highchartsRelease: {
+                files: [{
+                    expand: true,
+                    cwd: 'bower_components/highcharts-release/',
+                    src: [
+                        '**/*'
+                    ],
+                    dest: 'dist/js/highcharts-release/'
+                }, ]
+            },
             glyphicons: {
                 files: [{
                     expand: true,
@@ -76,10 +86,17 @@ module.exports = function(grunt) {
                 }]
             },
             jekyllBlog: {
-                cwd : 'blog/_site/',
-                src : '**/*', 
-                dest: 'dist/blog',
-                expand : true
+                files : [{
+                    cwd : 'blog/_site/',
+                    src : '**/*', 
+                    dest: 'dist/blog',
+                    expand : true
+                }, {
+                    cwd : 'blog/js/',
+                    src : '**/*',
+                    dest: 'dist/js/blog/',
+                    expand : true
+                }]
             }
         },
         less: {
@@ -138,6 +155,13 @@ module.exports = function(grunt) {
                 options: {
                     spawn: false,
                 }
+            },
+            jekyll: {
+                files: ['blog/**'],
+                tasks : ['shell:jekyllBuild', 'copy'],
+                options: {
+                    spawn: false,
+                }
             }
         },
         image_resize: {
@@ -156,6 +180,9 @@ module.exports = function(grunt) {
         shell : {
             jekyllBuild : {
                 command : 'jekyll build --source blog/ --destination blog/_site'
+            },
+            startHTTPserver: {
+                command : 'cd dist && python -m SimpleHTTPServer'
             }
         }
     });
@@ -171,5 +198,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     // Default task(s).
-    grunt.registerTask('default', ['concat', 'uglify', 'less', 'usebanner', 'image_resize', 'shell', 'copy']);
+    grunt.registerTask('default', ['concat', 'uglify', 'less', 'usebanner', 'image_resize', 'shell:jekyllBuild', 'copy', 'shell:startHTTPserver']);
 };
