@@ -91,11 +91,6 @@ module.exports = function(grunt) {
                     src : '**/*', 
                     dest: 'dist/blog',
                     expand : true
-                }, {
-                    cwd : 'blog/js/',
-                    src : '**/*',
-                    dest: 'dist/js/blog/',
-                    expand : true
                 }]
             }
         },

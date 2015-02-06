@@ -1,0 +1,16 @@
+---
+layout: page
+title : Archive
+header : Post Archive
+group: navigation
+jsfiles:
+- jquery/jquery.min
+- bootstrap-3.2.0/js/bootstrap.min
+cssfiles:
+- bootstrap-3.2.0/css/bootstrap.min
+- css/main
+---
+{% include JB/setup %}
+
+{% assign posts_collate = site.posts %}
+{% include JB/posts_collate %}

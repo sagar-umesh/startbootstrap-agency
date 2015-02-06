@@ -1,23 +1,53 @@
 ---
-layout: default
+layout: page
+title: Hello World!
+tagline: Supporting tagline
+jsfiles:
+- jquery/jquery.min
+- bootstrap-3.2.0/js/bootstrap.min
+cssfiles:
+- bootstrap-3.2.0/css/bootstrap.min
+- css/main
 ---
 
-<div class="home">
+<div class="container">
+  {% include JB/setup %}
 
-  <h1 class="page-heading">Posts</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">Subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
+  {% for post in site.posts %}
+    <div class="post">
+      <div class="row">
+        <div class="col-md-6 post-title">
+          <a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a>
+        </div>
+        <div class="col-md-6 post-date">
+          <span class="glyphicon glyphicon-calendar"></span> {{ post.date | date_to_string }}
+        </div>
+      </div>
+      <p></p>
+      <div class="row">
+        <div class="col-md-6">
+          <span class="glyphicon glyphicon-tags"></span> &nbsp;
+          {% for tag in post.tags %}
+            <span class="tag">{{tag}}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <p></p>
+      <div class="row">
+        <div class="col-md-12">
+          {% if post.summary %}
+            {{ post.summary }}
+          {% else %}
+            {{ post.excerpt }}
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" id="">
+          <a href="{{ BASE_PATH }}{{ post.url }}">more..</a>
+        </div>
+      </div>
+    </div>
+    <hr />
+  {% endfor %}
 </div>

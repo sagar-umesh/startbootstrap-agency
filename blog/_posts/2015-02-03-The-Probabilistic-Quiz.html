@@ -1,0 +1,144 @@
+---
+layout: post
+title:  "The Probabilistic Quiz"
+date:   2015-02-03 19:27:00
+categories: technical
+tags:
+- Probability
+- Prediction
+- Simulation
+summary: "Hello World! Yes, its a tradition, and a good one at that! Whether you like it or not, randomness rules our lives. The degree of randomness may vary, but the inevitable fact remains. This is a blog post about how I predicted the score I would get on a quiz. Rather, the score that I was supposed to get if I chose the answers randomly."
+jsfiles:
+- jquery/jquery.min
+- bootstrap-3.2.0/js/bootstrap.min
+- highcharts-release/highcharts
+- highcharts-release/modules/exporting
+- js/the_probabilistic_quiz
+cssfiles:
+- bootstrap-3.2.0/css/bootstrap.min
+- css/main
+---
+
+<div class="row">
+    <div class="col-md-12 blog-content">
+        <p>
+        "Hello World!"
+        </p>
+
+        <p>
+        Yes, its a tradition, and a good one at that!
+        Whether you like it or not, randomness rules our lives. The degree of randomness may vary, but the inevitable fact remains. This is a blog post about how I predicted the score I would get on a quiz. Rather, the score that I was *supposed* to get if I chose the answers randomly.
+        </p>
+
+        <p>
+        I had taken up a course on <a href="http://coursera.org">Coursera</a>. I must say, I <i>probably</i> learnt quite a bit of probability in the course. It so happened that I was running behind schedule by a large margin for a quiz that was due on a Sunday. I had no clue what the course content was, let alone what the questions meant. And the clock was ticking! Remember? randomness controls us. Then I thought, "Why not apply what I had learnt? Lets see if I can predict the score when I answer questions randomly.".
+        </p>
+
+        <p>
+        Here's how this particular quiz was structured: There were 9 questions with 4 choices each. You get 3 attempts at the quiz. The questions, nor the choices change after each attempt. The order of the choices might change though.
+        </p>
+
+        <p>
+            Lets get predicting!
+        </p>
+
+        <b>Attempt 1:</b>
+        <p>
+            Given a single question, <code>4</code> choices and 1 correct answer, what is the probability that you'll pick the right choice if you're asked to choose randomly? Well, thats simple. Its <code>(1/4)</code>.<br />
+            What if I give you <code>2</code> questions, <code>4</code> choices each and 1 correct answer, what then? <code>(2/4)</code>, isn't it?<br />
+            What if I you have <code>3</code> questions? You'll get <code>3/4</code> questions right. <br />
+            If you had <code>9</code> questions, you'll get <code>9/4</code> right. Hold on to that thought!<br />
+        </p>
+        <b>Attempt 2</b>
+        <p>
+            The questions and choices will not change in this attempt, remember? Good. Now that you've got <code>9/4</code> answers already right, you can just carry them over to this attempt. In this attempt, you'll have to answer <code>9 - 9/4 = 9 * (3/4)</code> questions right. For the sake of brevity, lets call this <code>n1</code>. So, <code>n1 = 9 * (3/4)</code>.<br />
+            In this attempt, lets do something smart. For the <code>n1</code> questions that you got wrong, you know what you had chosen earlier. The same choice cannot be the answer, obviously. Now, your sample space has reduced to <code>3</code>, instead of <code>4</code>. If you choose the answers randomly for these <code>n1</code> questions, how many will you get right? <code>n1 / 3</code>, right!<br />
+            The remaining questions are <code>n2 = n1 - (n1/3) = n1 * (2/3)</code>.<br />
+            Lets substitute for <code>n1</code>: <code>n2 = 9 * (3/4) * (2/3)</code>.<br />
+            Do you *see* a pattern? Exactly!
+        </p>
+
+        <b>Attempt 3:</b><br />
+        <p>
+            The same rules apply here: same questions, same choices. For the remaining <code>n2</code> questions, you know the 2 choices that are wrong. Your sample space is further reduced to 2. Following the same process, you'd get <code>n2 / 2</code> questions right.<br /> 
+            The remining questions are,<br/> <code>n3 = n2 - n2 / 2</code><br /><code>= n2 * (1/2)</code><br /><code>= 9 * (3/4) * (2/3) * (1/2)</code> <br /> <code>= 9/4</code>.
+        </p>
+        
+        <p>
+            By the end of the third attempt, you would've answered <code>9 - (9/4) = 9 * (3/4)</code> questions right. Thats a whopping 75%! Thats great, for someone who doesnt even know what the questions are. In this case, 75% turns out to be <b>6.75</b> questions.
+        </p>
+
+        <p>
+            I put this theory to the test. And guess, what.. <b>I got 7 questions right out of 9!</b><br />
+            But that cant always be that accurate. There *must* be a method to the madness. There must be a <i>distribution</i>.<br />
+        </p>
+
+        <b>Generalization:</b><br />
+        <p>
+            For a quiz with <code>n</code> questions, <code>c</code> choices and <code>k</code> attempts, the number of remaining right answers is given by:<br />
+            <code>n * (k / c)</code><br />
+            Wondering how I got this formula? Drop me an email, lets discuss! :)
+        </p>
+
+        <p>
+            <code>9</code> questions; <code>4</code> choices each; <code>3</code> attempts; <code>1000</code> experiments. In each experiment, I noted down the number of correct answers. Here's what the distribution of the number of correct answers looks like. Feel free to change the parameters and run simulations.<br />
+        </p>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        Number of questions, <code>n</code>: 
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" type="number" id="num_questions" value="9"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Number of choices, <code>c</code>: 
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" type="number" id="num_options" value="4"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Number of attempts, <code>k</code>: 
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" type="number" id="num_quiz_trials" value="3"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        Number of experiments:
+                    </div>
+                    <div class="col-md-6">
+                        <input class="form-control" type="number" id="num_sim_trials" value="1000"/>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                        <div class="btn btn-primary form-control" id="run_simulation">Run Simulation</div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="row">
+                    <div class="col-md-12">
+                        Theoritically predicted value using <code>n * (k / c)</code> is <b><span id="theoritical"></span></b>.<br /> 
+                        As you can see from the plot, the mean of the distribution is centered around our theoritically determined value. I dont know how to theoritically compute the variance of the plot thought. Any thoughts?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            Initially, I had written an <b>R</b> script to simulate the experiment. Here's the <a href="http://pastebin.com/Wz3wbNyV">code</a>. I know, its a bit clumsy. I'm sure there are much better ways to simulate this quiz. Do let me know if you know any of them. I hope this blog post inspired you to look into the subtle everyday randomness. Until next time.. adios!
+        </p>
+    </div>
+</div>

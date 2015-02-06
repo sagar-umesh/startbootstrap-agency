@@ -1,0 +1,19 @@
+---
+layout: page
+title: Pages 
+header: Pages
+group: navigation
+jsfiles:
+- jquery/jquery.min
+- bootstrap-3.2.0/js/bootstrap.min
+cssfiles:
+- bootstrap-3.2.0/css/bootstrap.min
+- css/main
+---
+{% include JB/setup %}
+
+<h2>All Pages</h2>
+<ul>
+{% assign pages_list = site.pages %}
+{% include JB/pages_list %}
+</ul>

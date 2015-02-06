@@ -1,0 +1,39 @@
+<div class="page-header">
+  <h1>{{ page.title }}</h1>
+  {% unless page.tags == empty %}
+  <div>
+    {% for tag in page.tags %}
+      <span class="post-tag">{{tag}}</span>
+    {% endfor %}
+  </div>
+  {% endunless %}
+  <div class="post-page-date">
+    {{ page.date | date_to_string }}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    {{ content }}
+    <hr>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="btn-group" role="group">
+          {% if page.previous %}
+            <button type="button" class="btn btn-default"><a href="{{ BASE_PATH }}{{ page.previous.url }}" title="{{ page.previous.title }}">&larr; Previous</a></button>
+          {% else %}
+            <button type="button" class="btn btn-default disabled">&larr; Previous</button>
+          {% endif %}
+            <button type="button" class="btn btn-default"><a href="{{ BASE_PATH }}{{ site.JB.archive_path }}">Archive</a></button>
+          {% if page.next %}
+            <button type="button" class="btn btn-default"><a href="{{ BASE_PATH }}{{ page.next.url }}" title="{{ page.next.title }}">Next &rarr;</a></button>
+          {% else %}
+            <button type="button" class="btn btn-default disabled">Next &rarr;</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <hr>
+    {% include JB/comments %}
+  </div>
+</div>
