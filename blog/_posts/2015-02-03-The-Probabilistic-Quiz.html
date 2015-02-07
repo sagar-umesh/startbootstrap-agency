@@ -76,7 +76,7 @@ cssfiles:
         <b>Generalization:</b><br />
         <p>
             For a quiz with <code>n</code> questions, <code>c</code> choices and <code>k</code> attempts, the number of remaining right answers is given by:<br />
-            <code>n * (k / c)</code><br />
+            <code>n * (k / c), for k &lt; c</code><br />
             Wondering how I got this formula? Drop me an email, lets discuss! :)
         </p>
 
@@ -130,7 +130,7 @@ cssfiles:
                 <p></p>
                 <div class="row">
                     <div class="col-md-12">
-                        Theoritically predicted value using <code>n * (k / c)</code> is <b><span id="theoritical"></span></b>.<br /> 
+                        Theoritically predicted value using <code>n * (k / c), for k &lt; c</code> is <b><span id="theoritical"></span></b>.<br /> 
                         As you can see from the plot, the mean of the distribution is centered around our theoritically determined value. I dont know how to theoritically compute the variance of the plot thought. Any thoughts?
                     </div>
                 </div>

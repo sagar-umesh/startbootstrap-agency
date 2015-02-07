@@ -79,7 +79,8 @@ function run_simulation(num_questions, num_options, num_quiz_trials, num_sim_tri
     }
 
     // set the theoritical value
-    $("#theoritical").text(num_questions *  num_quiz_trials / num_options);
+    var theoritical_value = num_questions / num_options * (num_quiz_trials > num_options? num_options : num_quiz_trials);
+    $("#theoritical").text(theoritical_value);
 
     var plot = $('#container').highcharts({
         chart: {
